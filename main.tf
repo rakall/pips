@@ -32,14 +32,5 @@ resource "azurerm_public_ip" "pip" {
   sku                 = var.sku
   allocation_method   = var.allocation_method
   public_ip_prefix_id = var.ip_prefix_assignment[count.index].prefix_name == "" ? null : "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.resource_group}/providers/Microsoft.Network/publicIPPrefixes/${var.ip_prefix_assignment[count.index].prefix_name}"
-  
-  tags = {
-    channel       = var.channel
-    cia           = var.cia
-    cost_center   = data.azurerm_resource_group.rsg.tags["cost_center"]
-    product       = data.azurerm_resource_group.rsg.tags["product"]
-    description   = var.description
-    tracking_code = var.tracking_code
-  }
   depends_on = [data.azurerm_resource_group.rsg, data.azurerm_public_ip_prefix.public_ip_prefix, var.module_depends_on]
 }
